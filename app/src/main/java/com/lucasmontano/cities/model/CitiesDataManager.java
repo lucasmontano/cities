@@ -16,10 +16,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import ca.gedge.radixtree.RadixTree;
+
 final class CitiesDataManager {
 
   private static CitiesDataManager instance = new CitiesDataManager();
   private List<City> listCities = new ArrayList<>();
+  private RadixTree<City> radixTreeCities = new RadixTree<>();
 
   private CitiesDataManager() {}
 
@@ -40,6 +43,10 @@ final class CitiesDataManager {
     Gson gson = new Gson();
     Type listType = new TypeToken<ArrayList<City>>(){}.getType();
     listCities = gson.fromJson(reader, listType);
+
+    for (City city: listCities) {
+     radixTreeCities.put(city.name + ", " + city.country, city);
+    }
   }
 
   /**
@@ -79,6 +86,6 @@ final class CitiesDataManager {
    * @param prefix cities that starts with this prefix
    */
   List<City> search(String prefix) {
-    return getListCities();
+    return radixTreeCities.getValuesWithPrefix(prefix);
   }
 }

@@ -53,15 +53,27 @@ public class CitiesDataManagerTest {
   }
 
   @Test
-  public void searchPrefix() throws Exception {
+  public void searchPrefixM() throws Exception {
 
     if (manager.getListCities().size() == 0) {
       manager.loadFromFile(fileCities);
     }
 
-    List<City> cities = manager.search("Al");
+    List<City> cities = manager.search("M");
 
-    Assert.assertEquals("Expected 10 cities starting with Al but got " + cities.size(), 10, cities.size());
+    Assert.assertEquals("Expected 27 cities starting with M but got " + cities.size(), 27, cities.size());
+  }
+
+  @Test
+  public void searchPrefixMo() throws Exception {
+
+    if (manager.getListCities().size() == 0) {
+      manager.loadFromFile(fileCities);
+    }
+
+    List<City> cities = manager.search("Mo");
+
+    Assert.assertEquals("Expected 9 cities starting with Mo but got " + cities.size(), 9, cities.size());
   }
 
 }
