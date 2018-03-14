@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 final class CitiesDataManager {
@@ -21,6 +23,16 @@ final class CitiesDataManager {
 
   private CitiesDataManager() {}
 
+  static CitiesDataManager getInstance() {
+    return instance;
+  }
+
+  /**
+   * Load cities from and JSON File.
+   *
+   * @param file JSON file with cities
+   * @throws IOException Exception from FileInputStream
+   */
   void loadFromFile(File file) throws IOException {
     InputStream inputStream = new FileInputStream(file);
     Reader reader = new InputStreamReader(inputStream);
@@ -30,11 +42,33 @@ final class CitiesDataManager {
     listCities = gson.fromJson(reader, listType);
   }
 
-  static CitiesDataManager getInstance() {
-    return instance;
-  }
-
+  /**
+   * Return the list of cities
+   *
+   * @return List of @see City
+   */
   List<City> getListCities() {
     return listCities;
+  }
+
+  /**
+   * Using List and Collections.sort() (MergeSort algorithm). Another way could be an Array and
+   * sort using Arrays.sort(), in this case, we would have the QuickSort algorithm in action.
+   * The MergeSort sometimes can be slower then QuickSort, but definitely is more stable,
+   * not depending on looky, which is extremely important when handling a 200k items =D
+   */
+  void sort() {
+
+    Collections.sort(listCities, new Comparator<City>() {
+
+      @Override
+      public int compare(City a, City b) {
+
+        String valA = a.name + a.country;
+        String valB = b.name + b.country;
+
+        return valA.compareTo(valB);
+      }
+    });
   }
 }
