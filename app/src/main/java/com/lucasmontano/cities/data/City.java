@@ -1,6 +1,8 @@
 package com.lucasmontano.cities.data;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
 
   public String country;
   public String name;
