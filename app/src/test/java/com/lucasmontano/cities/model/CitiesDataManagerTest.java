@@ -1,5 +1,7 @@
 package com.lucasmontano.cities.model;
 
+import com.lucasmontano.cities.data.City;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,5 +36,18 @@ public class CitiesDataManagerTest {
   public void getListCities() throws Exception {
     manager.loadFromFile(fileCities);
     Assert.assertNotNull("Expected a list of cities, but got nothing :(", manager.getListCities());
+  }
+
+  @Test
+  public void sortCities() throws Exception {
+
+    if (manager.getListCities().size() == 0) {
+      manager.loadFromFile(fileCities);
+    }
+
+    manager.sort();
+
+    City city = manager.getListCities().get(0);
+    Assert.assertEquals("Expected the first city to be Alupka but was " + city.name, "Alupka", city.name);
   }
 }
