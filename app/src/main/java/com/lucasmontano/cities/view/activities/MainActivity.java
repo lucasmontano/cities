@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
       public void onTextChanged(CharSequence s, int start, int before, int count) {
 
         if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-          bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+          bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         if (listCityFragment != null && listCityFragment.isAdded()) {
           listCityFragment.search(s.toString());
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
   }
 
   /**
-   * Show the city in the Map.
+   * Show the city on the Map and hide the keyboard (if opened).
    *
    * @param city City clicked.
    */
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
     LatLng latlng = new LatLng(city.coord.lat, city.coord.lon);
     googleMap.addMarker(new MarkerOptions().position(latlng).title(city.name));
     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 8f));
+
     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
   }
 
