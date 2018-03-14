@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
     bottomSheetBehavior = BottomSheetBehavior.from(mBottomSheetMap);
     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     bottomSheetBehavior.setHideable(true);
+    bottomSheetBehavior.setPeekHeight(60);
 
     FragmentManager fm = getSupportFragmentManager();
     mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.frame_map);
@@ -61,13 +62,18 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
   }
 
   /**
-   * Search input in Toolbar.
+   * Input search in the Toolbar.
+   * If the bottom sheet with map is expanded, collapse.
    */
   private void initSearchView() {
     mSearch = findViewById(R.id.search);
     mSearch.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+          bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
         if (listCityFragment != null && listCityFragment.isAdded()) {
           listCityFragment.search(s.toString());
         }
