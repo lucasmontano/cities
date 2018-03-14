@@ -8,16 +8,16 @@ import android.widget.TextView;
 
 import com.lucasmontano.cities.R;
 import com.lucasmontano.cities.data.City;
-import com.lucasmontano.cities.view.interfaces.OnCityListClick;
+import com.lucasmontano.cities.view.interfaces.ListCitiesListener;
 
 import java.util.List;
 
 public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerViewAdapter.CityViewHolder> {
 
   private List<City> mCities;
-  private final OnCityListClick mListener;
+  private final ListCitiesListener mListener;
 
-  public CityRecyclerViewAdapter(OnCityListClick listener) {
+  public CityRecyclerViewAdapter(ListCitiesListener listener) {
     mListener = listener;
   }
 
@@ -34,7 +34,10 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
   @Override
   public void onBindViewHolder(final CityViewHolder holder, int position) {
     holder.mItem = mCities.get(position);
-    holder.mName.setText(mCities.get(position).name);
+
+    StringBuilder name = new StringBuilder();
+    name.append(holder.mItem.name).append(", ").append(holder.mItem.country);
+    holder.mName.setText(name.toString());
 
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override

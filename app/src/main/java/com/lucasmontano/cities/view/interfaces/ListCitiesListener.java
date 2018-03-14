@@ -2,7 +2,7 @@ package com.lucasmontano.cities.view.interfaces;
 
 import com.lucasmontano.cities.data.City;
 
-public interface OnCityListClick {
+public interface ListCitiesListener {
 
   /**
    * On city is clicked.
@@ -10,4 +10,9 @@ public interface OnCityListClick {
    * @param city
    */
   void onCityClick(City city);
+
+  /**
+   * On cities laoded.
+   */
+  void onCititesLoaded();
 }

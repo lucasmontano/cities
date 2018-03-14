@@ -76,4 +76,28 @@ public class CitiesDataManagerTest {
     Assert.assertEquals("Expected 9 cities starting with Mo but got " + cities.size(), 9, cities.size());
   }
 
+  @Test
+  public void searchPrefixNull() throws Exception {
+
+    if (manager.getListCities().size() == 0) {
+      manager.loadFromFile(fileCities);
+    }
+
+    List<City> cities = manager.search(null);
+
+    Assert.assertEquals("Searching a null prefix, expected the full list of cities.", 304, cities.size());
+  }
+
+  @Test
+  public void searchPrefixEmpty() throws Exception {
+
+    if (manager.getListCities().size() == 0) {
+      manager.loadFromFile(fileCities);
+    }
+
+    List<City> cities = manager.search("");
+
+    Assert.assertEquals("Searching a empty prefix, expected the full list of cities.", 304, cities.size());
+  }
+
 }

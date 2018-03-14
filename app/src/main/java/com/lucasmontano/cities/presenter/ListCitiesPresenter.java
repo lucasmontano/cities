@@ -12,8 +12,7 @@ import java.util.List;
 
 public class ListCitiesPresenter {
 
-  CitiesDataManager manager = CitiesDataManager.getInstance();
-
+  private CitiesDataManager manager = CitiesDataManager.getInstance();
   private ListCityView mView;
   private AsyncLoadCities asyncLoadCities;
 
@@ -24,9 +23,7 @@ public class ListCitiesPresenter {
    */
   public void init(ListCityView view) {
     mView = view;
-    asyncLoadCities = new AsyncLoadCities();
-    asyncLoadCities.init(manager, mView);
-    asyncLoadCities.execute();
+    searchCitites(null);
   }
 
   /**
@@ -35,6 +32,12 @@ public class ListCitiesPresenter {
    * @param prefix query prefix.
    */
   public void searchCitites(String prefix) {
+
+    // Stop last task, if any.
+    if (asyncLoadCities != null && ! asyncLoadCities.isCancelled()) asyncLoadCities.cancel(true);
+
+    asyncLoadCities = new AsyncLoadCities();
+    asyncLoadCities.init(manager, mView);
     asyncLoadCities.execute(prefix);
   }
 
@@ -59,22 +62,23 @@ public class ListCitiesPresenter {
     void init(CitiesDataManager manager, ListCityView mView) {
       this.manager = manager;
       this.mView = mView;
+      mView.showLoading();
     }
 
     protected List<City> doInBackground(String... prefixs) {
 
-      mView.showLoading();
-
-      try {
-        InputStream citiesJson = mView.getContext().getAssets().open("cities.json");
-        manager.loadFromInputStream(citiesJson);
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (manager.getListCities().size() == 0) {
+        try {
+          InputStream citiesJson = mView.getContext().getAssets().open("cities.json");
+          manager.loadFromInputStream(citiesJson);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
 
       manager.sort();
 
-      return manager.getListCities();
+      return (prefixs[0] != null) ? manager.search(prefixs[0]) : manager.getListCities();
     }
 
     protected void onPostExecute(List<City> cities) {

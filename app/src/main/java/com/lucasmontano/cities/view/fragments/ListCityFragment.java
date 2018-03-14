@@ -14,14 +14,14 @@ import com.lucasmontano.cities.R;
 import com.lucasmontano.cities.data.City;
 import com.lucasmontano.cities.presenter.ListCitiesPresenter;
 import com.lucasmontano.cities.view.adapters.CityRecyclerViewAdapter;
+import com.lucasmontano.cities.view.interfaces.ListCitiesListener;
 import com.lucasmontano.cities.view.interfaces.ListCityView;
-import com.lucasmontano.cities.view.interfaces.OnCityListClick;
 
 import java.util.List;
 
 public class ListCityFragment extends Fragment implements ListCityView {
 
-  private OnCityListClick mListener;
+  private ListCitiesListener mListener;
   private ListCitiesPresenter listCitiesPresenter;
   private CityRecyclerViewAdapter adapter;
   private RecyclerView recyclerView;
@@ -70,10 +70,10 @@ public class ListCityFragment extends Fragment implements ListCityView {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    if (context instanceof OnCityListClick) {
-      mListener = (OnCityListClick) context;
+    if (context instanceof ListCitiesListener) {
+      mListener = (ListCitiesListener) context;
     } else {
-      throw new RuntimeException(context.toString() + " must implement OnCityListClick");
+      throw new RuntimeException(context.toString() + " must implement ListCitiesListener");
     }
   }
 
@@ -101,21 +101,33 @@ public class ListCityFragment extends Fragment implements ListCityView {
   public void displayCitites(List<City> cities) {
     adapter.setCities(cities);
     adapter.notifyDataSetChanged();
+    mListener.onCititesLoaded();
   }
 
   /**
-   * Show Loading
+   * Show Loading and hide list.
    */
   @Override
   public void showLoading() {
     loading.setVisibility(View.VISIBLE);
+    recyclerView.setVisibility(View.INVISIBLE);
   }
 
   /**
-   * Hide Loading
+   * Hide Loading and show list.
    */
   @Override
   public void hideLoading() {
     loading.setVisibility(View.GONE);
+    recyclerView.setVisibility(View.VISIBLE);
+  }
+
+  /**
+   * Search prefix and update list.
+   *
+   * @param prefix String
+   */
+  public void search(String prefix) {
+    listCitiesPresenter.searchCitites(prefix);
   }
 }

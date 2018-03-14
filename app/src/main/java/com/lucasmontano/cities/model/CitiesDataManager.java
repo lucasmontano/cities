@@ -100,6 +100,6 @@ public final class CitiesDataManager {
    * @param prefix cities that starts with this prefix
    */
   public List<City> search(String prefix) {
-    return radixTreeCities.getValuesWithPrefix(prefix);
+    return (prefix != null && ! prefix.isEmpty()) ? radixTreeCities.getValuesWithPrefix(prefix) : getListCities();
   }
 }
