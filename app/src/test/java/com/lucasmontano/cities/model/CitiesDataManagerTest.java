@@ -10,6 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CitiesDataManagerTest {
@@ -50,4 +51,17 @@ public class CitiesDataManagerTest {
     City city = manager.getListCities().get(0);
     Assert.assertEquals("Expected the first city to be Alupka but was " + city.name, "Alupka", city.name);
   }
+
+  @Test
+  public void searchPrefix() throws Exception {
+
+    if (manager.getListCities().size() == 0) {
+      manager.loadFromFile(fileCities);
+    }
+
+    List<City> cities = manager.search("Al");
+
+    Assert.assertEquals("Expected 10 cities starting with Al but got " + cities.size(), 10, cities.size());
+  }
+
 }

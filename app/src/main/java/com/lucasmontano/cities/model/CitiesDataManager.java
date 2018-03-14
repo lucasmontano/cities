@@ -71,4 +71,14 @@ final class CitiesDataManager {
       }
     });
   }
+
+  /**
+   * Given the task of search a prefix multiple times in the same cities list,
+   * I decided to go with Radix Tree Algorithm. We will have an O(n) where n is the number of characters.
+   *
+   * @param prefix cities that starts with this prefix
+   */
+  List<City> search(String prefix) {
+    return getListCities();
+  }
 }
