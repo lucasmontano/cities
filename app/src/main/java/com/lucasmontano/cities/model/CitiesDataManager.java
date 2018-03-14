@@ -18,7 +18,10 @@ import java.util.List;
 
 import ca.gedge.radixtree.RadixTree;
 
-final class CitiesDataManager {
+/**
+ * DataSet Manager.
+ */
+public final class CitiesDataManager {
 
   private static CitiesDataManager instance = new CitiesDataManager();
   private List<City> listCities = new ArrayList<>();
@@ -26,18 +29,27 @@ final class CitiesDataManager {
 
   private CitiesDataManager() {}
 
-  static CitiesDataManager getInstance() {
+  public static CitiesDataManager getInstance() {
     return instance;
   }
 
   /**
-   * Load cities from and JSON File.
+   * Load cities from a JSON File.
    *
    * @param file JSON file with cities
    * @throws IOException Exception from FileInputStream
    */
-  void loadFromFile(File file) throws IOException {
+  public void loadFromFile(File file) throws IOException {
     InputStream inputStream = new FileInputStream(file);
+    loadFromInputStream(inputStream);
+  }
+
+  /**
+   * Load cities from a JSON InputStream.
+   *
+   * @param inputStream InputStream of a JSON File.
+   */
+  public void loadFromInputStream(InputStream inputStream) {
     Reader reader = new InputStreamReader(inputStream);
 
     Gson gson = new Gson();
@@ -45,7 +57,7 @@ final class CitiesDataManager {
     listCities = gson.fromJson(reader, listType);
 
     for (City city: listCities) {
-     radixTreeCities.put(city.name + ", " + city.country, city);
+      radixTreeCities.put(city.name + ", " + city.country, city);
     }
   }
 
@@ -54,7 +66,7 @@ final class CitiesDataManager {
    *
    * @return List of @see City
    */
-  List<City> getListCities() {
+  public List<City> getListCities() {
     return listCities;
   }
 
@@ -64,7 +76,7 @@ final class CitiesDataManager {
    * The MergeSort sometimes can be slower then QuickSort, but definitely is more stable,
    * not depending on looky, which is extremely important when handling a 200k items =D
    */
-  void sort() {
+  public void sort() {
 
     Collections.sort(listCities, new Comparator<City>() {
 
@@ -87,7 +99,7 @@ final class CitiesDataManager {
    *
    * @param prefix cities that starts with this prefix
    */
-  List<City> search(String prefix) {
+  public List<City> search(String prefix) {
     return radixTreeCities.getValuesWithPrefix(prefix);
   }
 }
