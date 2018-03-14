@@ -8,5 +8,5 @@
   <dimen name="margin_top">28dp</dimen>
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="padding">8dp</dimen>
-  <dimen name="map">230dp</dimen>
+  <dimen name="map">200dp</dimen>
 </resources>
