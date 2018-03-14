@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.lucasmontano.cities.R;
 import com.lucasmontano.cities.data.City;
 import com.lucasmontano.cities.view.fragments.ListCityFragment;
+import com.lucasmontano.cities.view.fragments.MapDialog;
 import com.lucasmontano.cities.view.interfaces.ListCitiesListener;
 
 public class MainActivity extends AppCompatActivity implements ListCitiesListener {
@@ -69,7 +70,14 @@ public class MainActivity extends AppCompatActivity implements ListCitiesListene
    */
   @Override
   public void onCityClick(City city) {
+    Bundle args = new Bundle();
+    args.putString(MapDialog.ARG_NAME, city.name + ", " + city.country);
+    args.putDouble(MapDialog.ARG_LAT, city.coord.lat);
+    args.putDouble(MapDialog.ARG_LON, city.coord.lon);
 
+    MapDialog mapDialog = new MapDialog();
+    mapDialog.setArguments(args);
+    mapDialog.show(getSupportFragmentManager(), "DIALOG_MAP");
   }
 
   @Override

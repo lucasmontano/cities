@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/padding"
+              android:paddingTop="@dimen/activity_horizontal_margin">
+
+  <TextView
+      android:id="@+id/name"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:fontFamily="sans-serif"
+      android:textColor="@color/title_gray"
+      android:textSize="@dimen/text_regular"
+      android:textStyle="bold"/>
+
+  <TextView
+      android:id="@+id/coord"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_marginTop="@dimen/padding"
+      android:fontFamily="sans-serif"
+      android:text="@string/coord"
+      android:textColor="@color/title_gray"
+      android:textSize="@dimen/text_small"/>
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_marginTop="@dimen/text_margin"
+      android:layout_height="wrap_content">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/map"
+              android:id="@+id/frame_map"
+              android:visibility="gone"
+              tools:context=".view.activities.MainActivity"
+              android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        />
+  </FrameLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/activity_horizontal_margin"
+      android:gravity="right"
+      android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/button_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:foreground="?selectableItemBackground"
+        android:text="@string/close"
+        android:textAllCaps="false"/>
+
+  </LinearLayout>
+
+</LinearLayout>
